@@ -4,10 +4,12 @@ module todolist_addr::todolist{
     use aptos_framework::account;
     use std::signer;
     use aptos_framework::event;
-    use std::string::string;
-    use aptos_std::table::{self, Table};
+    use std::string::String;
+    use aptos_std::table::{Self, Table};
+    #[test_only]
+    use std::string;
 
-    const E_NOT_INITIALIZED: u65 = 1;
+    const E_NOT_INITIALIZED: u64 = 1;
     const ETASK_DOESNT_EXIST: u64 = 2;
     const ETASK_IS_COMPLETED: u64 = 3;
 
@@ -20,7 +22,7 @@ module todolist_addr::todolist{
     struct Task has store, drop, copy{
         task_id: u64,
         address: address,
-        content: string,
+        content: String,
         completed: bool,
     }
 
@@ -49,7 +51,7 @@ module todolist_addr::todolist{
         };
 
         // add task to table
-        table:upsert(&mut todo_list.tasks, counter, new_task);
+        table::upsert(&mut todo_list.tasks, counter, new_task);
         todo_list.task_counter = counter;  // update task counter
 
         // commit an event
@@ -57,6 +59,7 @@ module todolist_addr::todolist{
             &mut borrow_global_mut<TodoList>(signer_address).set_task_event,
             new_task
         );
+    }
 
         public entry fun complete_task(account: &signer, task_id: u64) acquires TodoList{
             let signer_address = signer::address_of(account);
@@ -73,4 +76,3 @@ module todolist_addr::todolist{
         }
 
     }
-}
