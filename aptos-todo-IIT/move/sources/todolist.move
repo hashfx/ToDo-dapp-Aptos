@@ -31,7 +31,7 @@ module todolist_addr::todolist{
         move_to(account, todo_list);  // operates todoList for the mentioned account via frontend
     }
 
-    public entry fun create_task(account: &signer, content: String) acquires ...{
+    public entry fun create_task(account: &signer, content: String) acquires TodoList{
         let signer_address = signer::address_of(account);
         assert!(exists<TodoList>(signer_address), E_NOT_INITIALIZED);
         let todo_list = borrow_global_mut<TodoList>(signer_address);
