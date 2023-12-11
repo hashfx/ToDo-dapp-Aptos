@@ -5,5 +5,5 @@ Demo project on Aptos Blockchain using Move Language vide Winter School of Block
 + ```aptos move init --name my_todo_list```
 + ```aptos init --network devnet```
 + Compile: ```aptos move compile```
-+ Test: ```aptos move compile```
++ Test: ```aptos move test```
 + Publish: ```aptos move publish```
